@@ -2,7 +2,7 @@
 
 const int THREADS_NUMBER = 4; // число потоков
 const int N = 100000; // размер массива
-object locker = new object();
+object lock_object = new object();
 
 //int[] array = {-10, -5, -9, 0, 2, 5, 1, 3, 1, 0, 1};
 //int[] sortedArray = CountingSortExtended(array);
@@ -60,7 +60,10 @@ void CoutingSortParallel(int[] inputArray, int[] counters, int offset, int start
 {
     for (int i = startPos; i < endPos; i++)
     {
+        lock (lock_object) // блокировка одновременно нескольких потоков в одной ячейке (синхронизация)
+        {
         counters[inputArray[i] + offset]++;
+        }
     }
 }
 
